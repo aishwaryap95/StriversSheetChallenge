@@ -1,0 +1,39 @@
+import java.util.*;
+// User Defined Object To Pass Node and Parent node in the queue.
+public class Solution { 
+    private static boolean dfs(int node, int parent, int vis[], ArrayList<ArrayList<Integer>> 
+    adj) {
+        vis[node] = 1; 
+        // go to all adjacent nodes
+        for(int it: adj.get(node)) {
+            if(vis[it]==0) {
+                if(dfs(it, node, vis, adj) == true) 
+                    return true; 
+            }
+            // if adjacent node is visited and is not its own parent node
+            else if(it != parent) return true; 
+        }
+        return false;
+    }   
+    public static String cycleDetection(int[][] edges, int vertex, int e) {
+        
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<ArrayList<Integer>>(); //Creating adjaceny list
+        for(int i=0;i<=vertex;i++)
+             adj.add(new ArrayList<Integer>());
+        
+        for(int i=0;i<e;i++){
+            int a=edges[i][0];
+            int b=edges[i][1];
+            adj.get(a).add(b);
+            adj.get(b).add(a);
+        }
+        //dfs
+        int vis[] = new int[vertex+1]; 
+       for(int i = 0;i<vertex;i++) {
+           if(vis[i] == 0) {
+               if(dfs(i, -1, vis, adj) == true) return "Yes"; 
+           }
+       }
+       return "No"; 
+    }
+}
