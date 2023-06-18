@@ -1,0 +1,44 @@
+class Solution {
+    private void swap(int nums1[], int nums2[], int i, int j){
+        if(nums1[i] > nums2[j]){
+            int t = nums1[i];
+            nums1[i] = nums2[j];
+            nums2[j] = t;
+        }
+    }
+    public void merge(int[] nums1, int n, int[] nums2, int m) {
+        int len = n + m;
+        int gap = (len / 2) + (len % 2);
+        while(gap > 0){
+            int left = 0;
+            int right = left + gap;
+
+            while(right < len){
+                //one pointer lies in arr1 and another lies in arr2
+                if(left < n && right >= n){
+                    swap(nums1 , nums2, left, right - n);
+                }
+                //both lies in second array
+                else if( left >= n){
+                    swap(nums2, nums2, left - n, right - n);
+                }
+                //both lies in first array
+                else{
+                    swap(nums1, nums1, left, right);
+                }
+                left++;
+                right++;
+            }
+            if(gap == 1)  break;
+            gap = (gap / 2) + (gap % 2);
+        }
+        // now nums1 contains first part
+        // nums2 contains second part
+        int i = n, j = 0;
+        while(j<m){
+            nums1[i] = nums2[j];
+            i++;
+            j++;
+        }
+    }
+}
