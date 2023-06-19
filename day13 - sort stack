@@ -1,0 +1,22 @@
+class GfG{
+    public void insert(Stack<Integer> s, int num){
+        if(s.size() == 0 || s.peek() > num){
+            s.push(num);
+            return;
+        }
+        int ele = s.peek();
+        s.pop();
+        insert(s, num);
+        s.push(ele);
+    }
+	public Stack<Integer> sort(Stack<Integer> s)
+	{
+		if(s.size() == 1) return s;
+		
+		int temp = s.peek();
+		s.pop();
+		sort(s);
+		insert(s, temp);
+		return s;
+    }
+}
