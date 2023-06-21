@@ -1,0 +1,43 @@
+class Solution
+{
+    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
+    {
+        int dist[] = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[S] = 0;
+        
+        PriorityQueue<Pair> pq = new PriorityQueue<>(( p1, p2) -> p1.second - p2.second);
+        pq.offer(new Pair(S, 0));
+        
+        boolean vis[] = new boolean[V];
+        
+        while(!pq.isEmpty()){
+            Pair p = pq.poll();
+            int node =  p.first;
+            int dst = p.second;
+            
+            if(vis[node] == true) continue;
+            
+            vis[node] = true;
+            
+            for(ArrayList<Integer> i : adj.get(node)){
+                int adjNode = i.get(0);
+                int edgeWeight = i.get(1);
+                
+                if(dist[adjNode] > dst + edgeWeight){
+                    dist[adjNode] = dst + edgeWeight;
+                    pq.offer(new Pair(adjNode , dist[adjNode]));
+                }
+            }
+        }
+        return dist;
+    }
+}
+class Pair{
+    int first,second;
+    Pair(int f, int s){
+        this.first = f;
+        this.second = s;
+    }
+}
+
