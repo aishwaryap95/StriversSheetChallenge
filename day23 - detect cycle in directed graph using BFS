@@ -1,0 +1,33 @@
+class Solution {
+    
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        int indeg[] = new int[V];
+        for(int i= 0;i<V;i++){
+            for(Integer it : adj.get(i))
+                indeg[it]++;
+        }
+        
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0;i<V;i++){
+            if(indeg[i] == 0)
+                q.add(i);
+        }
+        
+        //topo using bfs
+        int cnt = 0;
+        while(!q.isEmpty()){
+            int node = q.remove();
+            cnt++;
+            for(Integer it : adj.get(node)){
+                indeg[it]--;
+                if(indeg[it] == 0) q.add(it);
+            }
+        }
+        //topological sorting is only applicable for
+        //directed acyclic graph
+        //if topo sort completes successfully
+        //then there is no cycle
+        if(cnt == V) return false;
+        return true;
+    }
+}
