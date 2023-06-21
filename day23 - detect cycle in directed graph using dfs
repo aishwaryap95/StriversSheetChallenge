@@ -1,0 +1,46 @@
+class Solution {
+    
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        //using topo by DFS
+        
+        int vis[] = new int[V];
+        Stack<Integer> st = new Stack<>();
+        
+        for(int i=0;i<V;i++){
+            if(vis[i] == 0)
+                dfs(i, adj, vis, st);
+        }
+        
+        //cycle exists or not
+        Map<Integer, Integer> pos = new HashMap<>();
+        ArrayList<Integer> topo = new ArrayList<>();
+        int ind = 0;
+        
+        while(!st.isEmpty()){
+            pos.put(st.peek(), ind);
+            topo.add(st.peek());
+            ind += 1;
+            st.pop();
+        }
+        
+        for(int i=0;i<V;i++){
+            for(Integer it : adj.get(i)){
+                if(pos.get(i) > pos.get(it)){
+                    return true;  // cycle exists
+                }
+            }
+        }
+        
+        return false;
+    }
+    private void dfs(int node, ArrayList<ArrayList<Integer>> adj, int vis[], Stack<Integer> st){
+        
+        vis[node] = 1;
+        
+        for(Integer it: adj.get(node)){
+            if(vis[it] == 0)
+                dfs(it, adj, vis, st);
+        }
+        st.push(node);
+    }
+}
