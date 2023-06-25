@@ -1,0 +1,21 @@
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+
+        Stack<TreeNode> s1 = new Stack<TreeNode>();
+        TreeNode tmp = root;
+        while(true){
+            if(tmp != null){
+                s1.push(tmp);
+                tmp = tmp.left;
+            }
+            else{
+                if(s1.isEmpty()) break;
+                tmp = s1.pop();
+                ans.add(tmp.val);
+                tmp = tmp.right;
+            }
+        }
+        return ans;
+    }
+}
