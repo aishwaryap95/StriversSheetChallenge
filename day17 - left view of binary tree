@@ -1,0 +1,17 @@
+class Tree
+{
+    ArrayList<Integer> leftView(Node root)
+    {
+      ArrayList<Integer> ans = new ArrayList<>();
+      leftV(root , ans, 0);  // 0 indicates level 0 of root
+      return ans;
+    }
+    private void leftV(Node node, ArrayList<Integer> ds, int level){
+        if(node == null)   return;
+        
+        if(ds.size() == level) ds.add(node.data);
+        
+        leftV( node.left, ds, level+1);
+        leftV( node.right, ds, level+1);
+    }
+}
