@@ -1,0 +1,16 @@
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        
+        //If root is null or if root is x or if root is y then return root as answer
+        if (root == null || root == p || root == q) return root;
+        
+        //we would find LCA in the left or right subtree only
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        
+        //we haven’t found LCA in the left subtree, which means we found LCA on the right subtree
+        if (left == null) return right;
+        if (right == null) return left;  // if not found in right then root itself is answer
+        return root;
+    }
+}
