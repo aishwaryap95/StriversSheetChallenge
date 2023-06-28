@@ -1,0 +1,19 @@
+class Solution {
+    
+    void mirror(Node node) {
+        Queue<Node> q = new LinkedList<>();
+        q.add(node);
+        
+        while(!q.isEmpty()){
+            Node tmp = q.peek();
+            q.poll();
+            
+            if(tmp.left != null) q.add(tmp.left);
+            if(tmp.right != null) q.add(tmp.right);
+            
+            Node add = tmp.left;
+            tmp.left = tmp.right;
+            tmp.right = add;
+        }
+    }
+}
