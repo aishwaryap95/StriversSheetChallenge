@@ -1,0 +1,18 @@
+class Solution {
+    public int maxPathSum(TreeNode root) {
+        int mxsum[] = new int[1];
+        mxsum[0] = Integer.MIN_VALUE;
+        mxSumFun(root , mxsum);
+        return mxsum[0];
+    }
+    private int mxSumFun(TreeNode node, int mxsum[]){
+        if(node == null) return 0;
+
+        //using postorder
+        int lsum = Math.max( 0, mxSumFun(node.left , mxsum));
+        int rsum = Math.max( 0, mxSumFun(node.right, mxsum));
+        mxsum[0] = Math.max( mxsum[0], lsum + rsum + node.val);
+        
+        return node.val + Math.max(lsum,rsum);
+    }
+}
