@@ -1,0 +1,33 @@
+
+class Solution {
+    public boolean searchMatrix(int[][] mat, int target) {
+        // here we can use binary search 
+        //because of given condition
+
+        /*
+        The basic idea is from right corner, 
+        if the current number greater than target col - 1 in same row, 
+        else if the current number less than target, row + 1 in same column, 
+        finally if they are same, we find it, and return return. 
+        */
+        int n =mat.length;
+        int m = mat[0].length;
+        
+        int low=0;
+        int high = m - 1;
+
+        while(low < n && high >= 0){
+            
+            if(mat[ low ][ high ] == target){
+                return true;
+            }
+            else if(mat[ low ][ high ] < target){
+                low++;
+            }
+            else{
+                high--;
+            }
+        }
+        return false;
+    }
+}
