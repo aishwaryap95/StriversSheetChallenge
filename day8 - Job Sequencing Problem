@@ -1,0 +1,38 @@
+
+
+class Solution
+{
+    //Function to find the maximum profit and the number of jobs done.
+    int[] JobScheduling(Job arr[], int n)
+    {
+        Arrays.sort(arr,(a,b) -> (b.profit - a.profit));
+        int max = 0;
+        for(int i = 0; i<n ;i++){
+            if(arr[i].deadline > max)
+                max = arr[i].deadline;
+        }
+        int result[] = new int[max];
+        Arrays.fill(result,-1);
+        
+        int cntJobs = 0, maxProfit = 0;
+        
+        //iterate through all the job ID's
+        for(int i=0;i<n;i++){
+            //Iterate through all the deadlines
+            for(int j = arr[i].deadline-1 ; j >= 0;j--){
+                
+                if(result[j] == -1){
+                    // add job id in res array as job is allocated to that day
+                    result[j] = i;
+                    cntJobs++;
+                    maxProfit += arr[i].profit;
+                    break;
+                }
+            }
+        }
+        int resArr[] = new int[2];
+        resArr[0] = cntJobs;
+        resArr[1] = maxProfit;
+        return resArr;
+    }
+}
