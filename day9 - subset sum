@@ -1,0 +1,22 @@
+
+
+//User function Template for Java//User function Template for Java
+class Solution{
+    private void rec(int i, ArrayList<Integer> arr, int N, int sum, ArrayList<Integer> ans){
+        if(i==N){
+            ans.add(sum);
+            return;
+        }
+        
+        rec(i+1, arr, N, sum + arr.get(i), ans);
+     
+        rec(i+1, arr, N, sum, ans);
+    }
+    ArrayList<Integer> subsetSums(ArrayList<Integer> arr, int N){
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        
+        rec( 0, arr, N, 0, ans);
+        Collections.sort(ans);
+        return ans;
+    }
+}
