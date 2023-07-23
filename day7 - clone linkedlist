@@ -1,0 +1,45 @@
+class Solution {
+    public Node copyRandomList(Node head) {
+        // Create copy
+        Node iter = head;
+        Node front = head;
+        
+        while(iter != null){
+            //point front to its correct position
+            front = iter.next;
+            //create a copy
+            Node copy = new Node(iter.val);
+            // point copies both pointers random and next
+            iter.next = copy;
+            copy.next = front;
+            
+            iter = front;
+        }
+        
+        //  STEP 2 = Point random pointers
+        
+        iter = head;
+        while(iter != null){
+            if(iter.random != null){
+                iter.next.random = iter.random.next;
+            }
+            iter = iter.next.next;  // to skip deep copy nodes
+        }
+        
+        //  STEP 3 = create original LL back
+        
+        iter = head;
+        Node pseudoHead = new Node(0);
+        Node copy = pseudoHead;
+         
+        while(iter != null){
+            front = iter.next.next;;
+            copy.next = iter.next;
+            iter.next = front;
+            copy = copy.next;
+            iter = iter.next;
+        }
+        
+        return pseudoHead.next;
+    }
+}
