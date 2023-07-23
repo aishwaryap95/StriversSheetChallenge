@@ -1,0 +1,22 @@
+class Solution {
+    public void recur(int ind, int arr[], int target, List<List<Integer>> res, List<Integer> ds){
+        if(target == 0){
+            res.add(new ArrayList < > (ds));
+            return;
+        }
+        for(int i=ind; i <= arr.length-1 ; i++){
+            if(i>ind && arr[i] == arr[i-1]) continue; //to skip duplicates
+            if(arr[i] > target)  break;
+
+            ds.add(arr[i]);
+            recur( i + 1, arr, target-arr[i], res, ds);
+            ds.remove(ds.size() - 1);
+        }
+    }
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(candidates);
+        recur(0, candidates, target, res, new ArrayList<>());
+        return res;
+    }
+}
