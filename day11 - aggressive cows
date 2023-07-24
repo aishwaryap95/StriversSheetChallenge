@@ -1,0 +1,28 @@
+class Solution {
+    public static int solve(int n, int k, int[] stalls) {
+        int cows = k;
+        Arrays.sort(stalls);
+        int low = 1, high = stalls[n-1] - stalls[0];
+        
+        while(low <= high){
+            int mid = (low+high)>>1;
+            if(isPossible(stalls , n, cows, mid))
+                low = mid+1;
+            else
+                high = mid-1;
+        }
+        return high;
+    }
+    private static boolean isPossible(int stalls[], int n, int cows, int minDist){
+        int cntCows = 1;
+        int lastPlaceCow = stalls[0];
+        for(int i=1;i<n;i++){
+            if(stalls[i] - lastPlaceCow  >=  minDist){
+                cntCows++;
+                lastPlaceCow = stalls[i];
+            }
+        }
+        if(cntCows >= cows) return true;
+        return false;
+    }
+}
