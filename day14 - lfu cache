@@ -1,0 +1,87 @@
+    // Time complexity : O(1)
+    // Space complexity : O(n)
+
+class LFUCache {
+
+    class Node{
+        int key, value,freq;
+        public Node(int k, int v){
+            this.key = k;
+            this.value = v;
+            this.freq =  1;
+        }
+    }
+
+    int capacity, minFreq;
+    //key , Node
+    Map<Integer,Node> map;
+    Map<Integer,Set<Integer>> lruMap ; //freq, key
+
+    public LFUCache(int capacity) {
+        this.capacity = capacity;
+        this.minFreq = 1;
+        map = new HashMap<>();
+        lruMap = new HashMap<>();
+    }
+    
+    public int get(int key) {
+        if(!map.containsKey(key))
+            return -1;
+        
+        Node n = map.get(key);
+        update(n);
+        return n.value;
+    }
+    
+    private void update(Node n){
+        //update frequency lru map
+        int frequency = n.freq;
+        lruMap.get(frequency).remove(n.key);
+
+        //update frequency
+        if(lruMap.get(frequency).isEmpty()){
+            lruMap.remove(frequency);
+
+            //update minfrequency
+            if(frequency == minFreq)
+                minFreq++;
+        }
+        lruMap.putIfAbsent(frequency + 1, new LinkedHashSet<>());
+        lruMap.get(frequency+1).add(n.key);
+        n.freq++;
+    }
+
+    public void put(int key, int value) {
+        if(capacity==0)   return;
+
+        if(map.containsKey(key)){
+            Node n = map.get(key);
+            n.value = value;
+            update(n);
+        }
+        else{
+            //remove minfreq / lru when capacity full
+            if(map.size() == capacity){
+                int k = lruMap.get(minFreq).iterator().next();
+                map.remove(k);
+
+                lruMap.get(minFreq).remove(k);
+                if(lruMap.get(minFreq).isEmpty()){
+                    lruMap.remove(minFreq);
+                }
+            }
+            Node n = new Node(key ,value);
+            map.put(key,n);
+            minFreq = 1;
+            lruMap.putIfAbsent(minFreq, new LinkedHashSet<>());
+            lruMap.get(minFreq).add(key);
+        }
+    }
+}
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
