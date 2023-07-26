@@ -1,0 +1,32 @@
+class MedianFinder {
+
+    private PriorityQueue<Integer> mxheap = new PriorityQueue<>(Collections.reverseOrder());
+    private PriorityQueue<Integer> mnheap = new PriorityQueue<>();
+    private boolean even = true;
+
+    public double findMedian() {
+        if (even)
+            return (mxheap.peek() + mnheap.peek()) / 2.0;
+        else
+            return mxheap.peek();
+    }
+
+    public void addNum(int num) {
+        if(even){
+            mnheap.offer(num);
+            mxheap.offer(mnheap.poll());
+        }
+        else{
+            mxheap.offer(num);
+            mnheap.offer(mxheap.poll());
+        }
+        even = !even;
+    }
+}
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */
