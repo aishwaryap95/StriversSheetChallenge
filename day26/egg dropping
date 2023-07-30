@@ -1,0 +1,33 @@
+class Solution 
+{
+    static int eggDrop(int k, int n) 
+	{
+        int[][] t = new int[k+1][n+1];
+        for(int[] row : t)
+            Arrays.fill(row, -1);
+        return solve(k,n,t);
+	}
+	
+	public static int solve(int k, int n, int[][] t){
+        if(n == 0 || n == 1)
+            return n;
+
+        if(k == 1)
+            return n;
+
+        if(t[k][n] != -1)
+            return t[k][n];
+
+        int min = Integer.MAX_VALUE;
+        for(int p=1; p<=n; p++){
+            t[k-1][p-1] = t[k-1][p-1] == -1 ? solve(k-1, p-1, t) : t[k-1][p-1];
+            t[k][n-p] = t[k][n-p] == -1 ? solve(k,n-p, t) : t[k][n-p];
+            int temp = 1 + Math.max(t[k-1][p-1], t[k][n-p]);
+            min = Math.min(temp, min);
+        }
+
+        t[k][n] = min;
+        return t[k][n];
+
+    }
+}
